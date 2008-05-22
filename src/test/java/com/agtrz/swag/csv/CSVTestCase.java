@@ -14,11 +14,11 @@ extends TestCase
     private final static class ToArray
     implements CSV.Consumer
     {
-        public final List listOfRecords = new ArrayList();
+        public final List<List<String>> listOfRecords = new ArrayList<List<String>>();
         
-        public void line(List listOfFields)
+        public void line(List<String> listOfFields)
         {
-            listOfRecords.add(listOfFields.toArray(new String[listOfFields.size()]));
+            listOfRecords.add(new ArrayList<String>(listOfFields));
         }
     }
 
@@ -66,7 +66,7 @@ extends TestCase
     
     public void testLine()
     {
-        List listOfStrings = new ArrayList();
+        List<String> listOfStrings = new ArrayList<String>();
         
         listOfStrings.add("Hello");
         listOfStrings.add("I said, \"Parsley.\"");

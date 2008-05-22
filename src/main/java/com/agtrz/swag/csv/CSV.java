@@ -6,7 +6,6 @@ package com.agtrz.swag.csv;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -25,7 +24,7 @@ public class CSV {
     
     public interface Consumer
     {
-        public void line(List listOfFields);
+        public void line(List<String> listOfFields);
     }
     
     public CSV(Consumer consumer)
@@ -36,7 +35,7 @@ public class CSV {
     public void read(Reader reader)
     throws IOException
     {
-        ArrayList listOfFields = new ArrayList();
+        List<String> listOfFields = new ArrayList<String>();
         while (readLine(reader, listOfFields))
         {
             _consumer.line(listOfFields);
@@ -45,9 +44,9 @@ public class CSV {
     }
     
     
-    public static List readLine(Reader reader) throws IOException
+    public static List<String> readLine(Reader reader) throws IOException
     {
-        ArrayList listOfFields = new ArrayList();
+        List<String> listOfFields = new ArrayList<String>();
         if (readLine(reader, listOfFields))
         {
             return listOfFields;
@@ -81,7 +80,7 @@ public class CSV {
     /**
      * @todo Breaks where there is no newline after the last character.
      */
-    private static boolean readLine(Reader reader, List list)
+    private static boolean readLine(Reader reader, List<String> list)
     throws IOException
     {
         StringBuffer field = new StringBuffer();
@@ -174,15 +173,13 @@ public class CSV {
         return hasFields;
     }
     
-    public final static String line(List listOfStrings)
+    public final static String line(List<String> listOfStrings)
     {
         StringBuffer line = new StringBuffer();
         
         String separator = "";
-        Iterator strings = listOfStrings.iterator();
-        while (strings.hasNext())
+        for (String string : listOfStrings)
         {
-            String string = strings.next().toString();
             line.append(separator);
             if (string.indexOf('"') != -1 || string.indexOf("\n") != -1)
             {
