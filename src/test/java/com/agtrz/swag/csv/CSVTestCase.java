@@ -11,7 +11,7 @@ import junit.framework.TestCase;
 public class CSVTestCase
 extends TestCase
 {
-    private final static class ToArray
+    private final static class Gather
     implements CSV.Consumer
     {
         public final List<List<String>> listOfRecords = new ArrayList<List<String>>();
@@ -20,48 +20,50 @@ extends TestCase
         {
             listOfRecords.add(new ArrayList<String>(listOfFields));
         }
+        
+        public String get(int i, int j)
+        {
+            return listOfRecords.get(i).get(j);
+        }
     }
 
     public void testOneLine()
     throws IOException
     {
-        ToArray toArray = new ToArray();
+        Gather gather = new Gather();
         String csv = "Hello,World!";
-        new CSV(toArray).read(new StringReader(csv));
-        assertEquals(1, toArray.listOfRecords.size());
-        String[][] records = (String[][]) toArray.listOfRecords.toArray(new String[1][]);
-        assertEquals("Hello", records[0][0]);
-        assertEquals("World!", records[0][1]);
+        new CSV(gather).read(new StringReader(csv));
+        assertEquals(1, gather.listOfRecords.size());
+        assertEquals("Hello", gather.get(0, 0));
+        assertEquals("World!", gather.get(0, 1));
     }
 
     public void testTwoLines()
     throws IOException
     {
-        ToArray toArray = new ToArray();
+        Gather gather = new Gather();
         String csv = "Hello,World!\nOne,Two,Three";
-        new CSV(toArray).read(new StringReader(csv));
-        assertEquals(2, toArray.listOfRecords.size());
-        String[][] records = (String[][]) toArray.listOfRecords.toArray(new String[2][]);
-        assertEquals("Hello", records[0][0]);
-        assertEquals("World!", records[0][1]);
-        assertEquals("One", records[1][0]);
-        assertEquals("Two", records[1][1]);
-        assertEquals("Three", records[1][2]);
+        new CSV(gather).read(new StringReader(csv));
+        assertEquals(2, gather.listOfRecords.size());
+        assertEquals("Hello", gather.get(0, 0));
+        assertEquals("World!", gather.get(0, 1));
+        assertEquals("One", gather.get(1, 0));
+        assertEquals("Two", gather.get(1, 1));
+        assertEquals("Three", gather.get(1, 2));
     }
 
     public void testCommaAtEndOfLine()
     throws IOException
     {
-        ToArray toArray = new ToArray();
+        Gather gather = new Gather();
         String csv = "Barbara_Foundas,Algeirs_Council_of_Neighborhood_Presidents,representative,4,,,,,,,,,,,,,,,,\nOne,Two,Three";
-        new CSV(toArray).read(new StringReader(csv));
-        assertEquals(2, toArray.listOfRecords.size());
-        String[][] records = (String[][]) toArray.listOfRecords.toArray(new String[2][]);
-        assertEquals("Barbara_Foundas", records[0][0]);
-        assertEquals("Algeirs_Council_of_Neighborhood_Presidents", records[0][1]);
-        assertEquals("One", records[1][0]);
-        assertEquals("Two", records[1][1]);
-        assertEquals("Three", records[1][2]);
+        new CSV(gather).read(new StringReader(csv));
+        assertEquals(2, gather.listOfRecords.size());
+        assertEquals("Barbara_Foundas", gather.get(0, 0));
+        assertEquals("Algeirs_Council_of_Neighborhood_Presidents", gather.get(0, 1));
+        assertEquals("One", gather.get(1, 0));
+        assertEquals("Two", gather.get(1, 1));
+        assertEquals("Three", gather.get(1, 2));
     }
     
     public void testLine()
