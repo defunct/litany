@@ -1,10 +1,12 @@
 /* Copyright Alan Gutierrez 2006 */
-package com.agtrz.swag.csv;
+package com.agtrz.litany;
 
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.agtrz.litany.CSV;
 
 import junit.framework.TestCase;
 
