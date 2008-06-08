@@ -4,11 +4,11 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.agtrz</groupId>
-    <artifactId>swag-csv</artifactId>
+    <artifactId>litany</artifactId>
     <packaging>jar</packaging>
     <version>0.1</version>
 
-    <name>swag-csv</name>
+    <name>litany</name>
     <description>A CSV lexer.</description>
 
     <organization>
