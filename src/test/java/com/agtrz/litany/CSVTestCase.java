@@ -6,7 +6,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.agtrz.litany.CSV;
+import com.agtrz.litany.Litany;
 
 import junit.framework.TestCase;
 
@@ -14,7 +14,7 @@ public class CSVTestCase
 extends TestCase
 {
     private final static class Gather
-    implements CSV.Consumer
+    implements Litany.Consumer
     {
         public final List<List<String>> listOfRecords = new ArrayList<List<String>>();
         
@@ -34,7 +34,7 @@ extends TestCase
     {
         Gather gather = new Gather();
         String csv = "Hello,World!";
-        new CSV(gather).read(new StringReader(csv));
+        new Litany(gather).read(new StringReader(csv));
         assertEquals(1, gather.listOfRecords.size());
         assertEquals("Hello", gather.get(0, 0));
         assertEquals("World!", gather.get(0, 1));
@@ -45,7 +45,7 @@ extends TestCase
     {
         Gather gather = new Gather();
         String csv = "Hello,World!\nOne,Two,Three";
-        new CSV(gather).read(new StringReader(csv));
+        new Litany(gather).read(new StringReader(csv));
         assertEquals(2, gather.listOfRecords.size());
         assertEquals("Hello", gather.get(0, 0));
         assertEquals("World!", gather.get(0, 1));
@@ -59,7 +59,7 @@ extends TestCase
     {
         Gather gather = new Gather();
         String csv = "Barbara_Foundas,Algeirs_Council_of_Neighborhood_Presidents,representative,4,,,,,,,,,,,,,,,,\nOne,Two,Three";
-        new CSV(gather).read(new StringReader(csv));
+        new Litany(gather).read(new StringReader(csv));
         assertEquals(2, gather.listOfRecords.size());
         assertEquals("Barbara_Foundas", gather.get(0, 0));
         assertEquals("Algeirs_Council_of_Neighborhood_Presidents", gather.get(0, 1));
@@ -77,7 +77,7 @@ extends TestCase
         listOfStrings.add("I don't like to complain\nbut...");
         listOfStrings.add("C:\\WINNT");
         
-        System.out.print(CSV.line(listOfStrings));
+        System.out.print(Litany.line(listOfStrings));
     }
 }
 

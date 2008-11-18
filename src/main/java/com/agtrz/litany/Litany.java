@@ -10,9 +10,9 @@ import java.util.List;
 
 /**
  * @author Alan Gutierrez
- * FIXME Rename Littany.
  */
-public class CSV {
+public class Litany
+{
     private final static int UNQUOTED = 1;
     
     private final static int QUOTED = 2;
@@ -28,7 +28,7 @@ public class CSV {
         public void line(List<String> listOfFields);
     }
     
-    public CSV(Consumer consumer)
+    public Litany(Consumer consumer)
     {
         _consumer = consumer;
     }
