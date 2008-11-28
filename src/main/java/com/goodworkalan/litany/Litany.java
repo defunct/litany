@@ -1,7 +1,7 @@
 /*
  * Copyright The Engine Room, LLC 2005. All Right Reserved.
  */
-package com.agtrz.litany;
+package com.goodworkalan.litany;
 
 import java.io.IOException;
 import java.io.Reader;

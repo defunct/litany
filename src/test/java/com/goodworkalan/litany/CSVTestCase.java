@@ -1,12 +1,12 @@
 /* Copyright Alan Gutierrez 2006 */
-package com.agtrz.litany;
+package com.goodworkalan.litany;
 
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.agtrz.litany.Litany;
+import com.goodworkalan.litany.Litany;
 
 import junit.framework.TestCase;
 
