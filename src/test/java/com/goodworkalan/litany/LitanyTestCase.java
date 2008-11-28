@@ -10,7 +10,7 @@ import com.goodworkalan.litany.Litany;
 
 import junit.framework.TestCase;
 
-public class CSVTestCase
+public class LitanyTestCase
 extends TestCase
 {
     private final static class Gather
