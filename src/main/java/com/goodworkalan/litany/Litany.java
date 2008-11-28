@@ -1,6 +1,4 @@
-/*
- * Copyright The Engine Room, LLC 2005. All Right Reserved.
- */
+/* Copyright Alan Gutierrez 2006 */
 package com.goodworkalan.litany;
 
 import java.io.IOException;

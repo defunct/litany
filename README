@@ -1,0 +1,19 @@
+LITANY
+
+Iterator of Microsoft CSV files.
+
+    Issues and Tasks: http://blogometer.com/trac/incubator
+    Source: http://github.com/bigeasy/litany/tree/master
+    Contact: alan@blogometer.com
+
+PURPOSE
+
+Litany is a simple class that does reads Microsoft CSV formatted
+converting them into an iterator of lists of strings. It also has a
+static method to create a line from a list of strings.
+
+MOTIVATION
+
+Litany is the smallest useful project that I've created. As such, I use
+it as a model for project organization. Because the code base is so
+small, I can focus on the most complete user support and documentation.
