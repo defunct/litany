@@ -6,12 +6,14 @@ package com.goodworkalan.litany;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * @author Alan Gutierrez
  */
-public class Litany
+public class Litany implements Iterable<List<String>>
 {
     private final static int UNQUOTED = 1;
     
@@ -21,42 +23,20 @@ public class Litany
     
     private final static int FIRST_FIELD = 4;
     
-    private final Consumer _consumer;
+    private final Reader reader;
     
-    public interface Consumer
+    public Litany(Reader reader)
     {
-        public void line(List<String> listOfFields);
+        this.reader = reader;
     }
-    
-    public Litany(Consumer consumer)
+
+    public Iterator<List<String>> iterator()
     {
-        _consumer = consumer;
-    }
-    
-    public void read(Reader reader)
-    throws IOException
-    {
-        List<String> listOfFields = new ArrayList<String>();
-        while (readLine(reader, listOfFields))
-        {
-            _consumer.line(listOfFields);
-            listOfFields.clear();
-        }
-    }
-    
-    
-    public static List<String> readLine(Reader reader) throws IOException
-    {
-        List<String> listOfFields = new ArrayList<String>();
-        if (readLine(reader, listOfFields))
-        {
-            return listOfFields;
-        }
-        return null;
+        return new LineIterator(reader);
     }
     
     /**
-     * Accomodates a missing newline at end of file.
+     * Accommodates a missing newline at end of file.
      *
      * @param reader A reader for the CSV file.
      * @param lastChararacter The last character read.
@@ -210,9 +190,93 @@ public class Litany
             separator = ",";
         }
         
-        line.append("\n");
+        line.append("\r\n");
 
         return line.toString();
+    }
+    
+    private final static class Error extends RuntimeException
+    {
+        private static final long serialVersionUID = 20081128L;
+
+        public Error(Throwable cause)
+        {
+            super(null, cause);
+        }
+    }
+    
+    private final static class LineIterator implements Iterator<List<String>>
+    {
+        private final Reader reader;
+        
+        private final List<String> line;
+
+        private List<String> next;
+        
+        private boolean done;
+        
+        public LineIterator(Reader reader)
+        {
+            this.reader = reader;
+            this.line = new ArrayList<String>();
+        }
+        
+        private void advance()
+        {
+            try
+            {
+                line.clear();
+                if (readLine(reader, line))
+                {
+                    next = new ArrayList<String>(line);
+                }
+                else
+                {
+                    done = true;
+                }
+            }
+            catch (IOException e)
+            {
+                throw new Error(e);
+            }
+        }
+
+        public boolean hasNext()
+        {
+            // Prime if this is the first time next or hasNext is called.
+            if (next == null)
+            {
+                advance();
+            }
+            
+            // Return our done state.
+            return !done;
+        }
+        
+        public List<String> next()
+        {
+            // Error if called after last line.
+            if (done)
+            {
+                throw new NoSuchElementException();
+            }
+            
+            // Prime if this is the first time next or hasNext is called.
+            if (next == null)
+            {
+                advance();
+            }
+            
+            // Return the next result and advance.
+            List<String> result = next;
+            advance();
+            return result;
+        }
+        
+        public void remove()
+        {
+            throw new UnsupportedOperationException();
+        }
     }
 }
 
