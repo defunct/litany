@@ -3,31 +3,36 @@ package com.goodworkalan.litany;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 /**
  * @author Alan Gutierrez
  */
 public class Litany implements Iterable<List<String>>
 {
+    // TODO Document.
     private final static int UNQUOTED = 1;
     
+    // TODO Document.
     private final static int QUOTED = 2;
     
+    // TODO Document.
     private final static int FIRST_CHARACTER = 3;
     
+    // TODO Document.
     private final static int FIRST_FIELD = 4;
     
+    // TODO Document.
     private final Reader reader;
     
+    // TODO Document.
     public Litany(Reader reader)
     {
         this.reader = reader;
     }
 
+    // TODO Document.
     public Iterator<List<String>> iterator()
     {
         return new LineIterator(reader);
@@ -59,7 +64,7 @@ public class Litany implements Iterable<List<String>>
     /**
      * @todo Breaks where there is no newline after the last character.
      */
-    private static boolean readLine(Reader reader, List<String> list)
+    static boolean readLine(Reader reader, List<String> list)
     throws IOException
     {
         StringBuffer field = new StringBuffer();
@@ -152,6 +157,7 @@ public class Litany implements Iterable<List<String>>
         return hasFields;
     }
     
+    // TODO Document.
     public final static String line(List<String> listOfStrings)
     {
         StringBuffer line = new StringBuffer();
@@ -191,90 +197,6 @@ public class Litany implements Iterable<List<String>>
         line.append("\r\n");
 
         return line.toString();
-    }
-    
-    private final static class Error extends RuntimeException
-    {
-        private static final long serialVersionUID = 20081128L;
-
-        public Error(Throwable cause)
-        {
-            super(null, cause);
-        }
-    }
-    
-    private final static class LineIterator implements Iterator<List<String>>
-    {
-        private final Reader reader;
-        
-        private final List<String> line;
-
-        private List<String> next;
-        
-        private boolean done;
-        
-        public LineIterator(Reader reader)
-        {
-            this.reader = reader;
-            this.line = new ArrayList<String>();
-        }
-        
-        private void advance()
-        {
-            try
-            {
-                line.clear();
-                if (readLine(reader, line))
-                {
-                    next = new ArrayList<String>(line);
-                }
-                else
-                {
-                    done = true;
-                }
-            }
-            catch (IOException e)
-            {
-                throw new Error(e);
-            }
-        }
-
-        public boolean hasNext()
-        {
-            // Prime if this is the first time next or hasNext is called.
-            if (next == null)
-            {
-                advance();
-            }
-            
-            // Return our done state.
-            return !done;
-        }
-        
-        public List<String> next()
-        {
-            // Error if called after last line.
-            if (done)
-            {
-                throw new NoSuchElementException();
-            }
-            
-            // Prime if this is the first time next or hasNext is called.
-            if (next == null)
-            {
-                advance();
-            }
-            
-            // Return the next result and advance.
-            List<String> result = next;
-            advance();
-            return result;
-        }
-        
-        public void remove()
-        {
-            throw new UnsupportedOperationException();
-        }
     }
 }
 
