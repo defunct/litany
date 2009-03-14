@@ -10,10 +10,10 @@ import java.util.NoSuchElementException;
 // TODO Document.
 final class LineIterator implements Iterator<List<String>>
 {
-    // TODO Document.
+    /** The reader. */
     private final Reader reader;
     
-    // TODO Document.
+    /** The current line. */
     private final List<String> line;
 
     // TODO Document.
@@ -46,7 +46,7 @@ final class LineIterator implements Iterator<List<String>>
         }
         catch (IOException e)
         {
-            throw new LitanyException(e);
+            throw new LitanyException(LitanyException.ERROR_IO_READ, e);
         }
     }
 

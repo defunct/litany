@@ -7,68 +7,82 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
+ * A parser for Microsoft CSV formatted files.
+ * 
  * @author Alan Gutierrez
  */
 public class Litany implements Iterable<List<String>>
 {
-    // TODO Document.
+    /** The parse state when reading an unquoted field. */
     private final static int UNQUOTED = 1;
-    
-    // TODO Document.
+
+    /** The parse state for a quoted field. */
     private final static int QUOTED = 2;
-    
-    // TODO Document.
+
+    /** The parse state when reading the first character of a field. */
     private final static int FIRST_CHARACTER = 3;
-    
-    // TODO Document.
+
+    /** The parse state when reading the first field. */
     private final static int FIRST_FIELD = 4;
-    
-    // TODO Document.
+
+    /** The CSV source. */
     private final Reader reader;
-    
-    // TODO Document.
+
+    /**
+     * Create a CSV lexer from the given CSV source reader.
+     * 
+     * @param reader
+     *            The CSV source.
+     */
     public Litany(Reader reader)
     {
         this.reader = reader;
     }
 
-    // TODO Document.
+    /**
+     * Return an iterator over the lines in the the CSV source.
+     * 
+     * @return An iterator over the lines in the CSV source.
+     */
     public Iterator<List<String>> iterator()
     {
         return new LineIterator(reader);
     }
-    
+
     /**
      * Accommodates a missing newline at end of file.
-     *
-     * @param reader A reader for the CSV file.
-     * @param lastChararacter The last character read.
-     *
-     * @return A newline if at eof and the last character was not a newline, otherwise
-     *         the result of read.
-     *
-     * @throws IOException For any I/O error.
+     * 
+     * @param reader
+     *            The CSV source.
+     * @param lastChararacter
+     *            The last character read.
+     * 
+     * @return A newline if at EOF and the last character was not a newline,
+     *         otherwise the result of read.
+     * 
+     * @throws IOException
+     *             For any I/O error.
      */
     private static int nextCharacter(Reader reader, char lastChararacter)
-    throws IOException
+            throws IOException
     {
         int character = reader.read();
         if (character == -1
-            && !(lastChararacter == '\n' || lastChararacter == (char) 0))
+                && !(lastChararacter == '\n' || lastChararacter == (char) 0))
         {
             return '\n';
         }
         return character;
     }
-    
+
     /**
      * @todo Breaks where there is no newline after the last character.
      */
     static boolean readLine(Reader reader, List<String> list)
-    throws IOException
+            throws IOException
     {
         StringBuffer field = new StringBuffer();
-        
+
         boolean hasFields = false;
         boolean firstQuote = false;
         int mode = FIRST_FIELD;
@@ -153,25 +167,32 @@ public class Litany implements Iterable<List<String>>
                 throw new IllegalStateException();
             }
         }
-        
+
         return hasFields;
     }
-    
-    // TODO Document.
-    public final static String line(List<String> listOfStrings)
+
+    /**
+     * Generate a line of Microsoft CSV formatted text from the given list of
+     * fields.
+     * 
+     * @param fields
+     *            The list of fields.
+     * @return A line of Microsoft CSV formatted text.
+     */
+    public final static String line(List<String> fields)
     {
         StringBuffer line = new StringBuffer();
-        
+
         String separator = "";
-        for (String string : listOfStrings)
+        for (String field : fields)
         {
             line.append(separator);
-            if (string.indexOf('"') != -1 || string.indexOf("\n") != -1)
+            if (field.indexOf('"') != -1 || field.indexOf("\n") != -1)
             {
                 line.append('"');
-                for (int i = 0; i < string.length(); i++)
+                for (int i = 0; i < field.length(); i++)
                 {
-                    char ch = string.charAt(i);
+                    char ch = field.charAt(i);
                     if (ch != '\r')
                     {
                         if (ch == '"')
@@ -189,11 +210,11 @@ public class Litany implements Iterable<List<String>>
             }
             else
             {
-                line.append(string);
+                line.append(field);
             }
             separator = ",";
         }
-        
+
         line.append("\r\n");
 
         return line.toString();
