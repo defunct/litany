@@ -69,7 +69,7 @@ extends TestCase
         listOfStrings.add("I don't like to complain\nbut...");
         listOfStrings.add("C:\\WINNT");
         
-        assertEquals("Hello,\"I said, \"\"Parsley.\"\"\",\"I don't like to complain\r\nbut...\",C:\\WINNT\r\n", Litany.line(listOfStrings));
+        assertEquals("Hello,\"I said, \"\"Parsley.\"\"\",\"I don't like to complain\r\nbut...\",C:\\WINNT\r\n", Litany.line(listOfStrings.toArray()));
     }
 }
 

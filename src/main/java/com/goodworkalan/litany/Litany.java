@@ -179,13 +179,14 @@ public class Litany implements Iterable<List<String>>
      *            The list of fields.
      * @return A line of Microsoft CSV formatted text.
      */
-    public final static String line(List<String> fields)
+    public final static String line(Object...fields)
     {
         StringBuffer line = new StringBuffer();
 
         String separator = "";
-        for (String field : fields)
+        for (Object object : fields)
         {
+            String field = object.toString();
             line.append(separator);
             if (field.indexOf('"') != -1 || field.indexOf("\n") != -1)
             {

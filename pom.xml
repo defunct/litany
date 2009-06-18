@@ -6,7 +6,7 @@
     <groupId>com.goodworkalan</groupId>
     <artifactId>litany</artifactId>
     <packaging>jar</packaging>
-    <version>0.7.X</version>
+    <version>0.7${version.suffix}</version>
 
     <name>litany</name>
     <description>A CSV lexer.</description>
@@ -36,9 +36,17 @@
     <distributionManagement>
       <repository>
         <id>ssh-repository</id>
-        <url>scpexe://maribor.blogometer.com/cb/www/static/goodworkalan/m2/repository</url>
+        <url>scpexe://ljubljana.blogometer.com${distribution.repository.path}</url>
       </repository>
     </distributionManagement>
+
+    <properties>
+        <site.javadoc.show>protected</site.javadoc.show>
+        <site.javadoc.visiblity>public</site.javadoc.visiblity>
+        <version.suffix>-SNAPSHOT</version.suffix>
+        <distribution.repository.path>/data/transient/www/static/goodworkalan/m2/snapshots</distribution.repository.path>
+    </properties>
+
 
     <build>
         <resources>
