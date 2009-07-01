@@ -47,7 +47,6 @@
         <distribution.repository.path>/data/transient/www/static/goodworkalan/m2/snapshots</distribution.repository.path>
     </properties>
 
-
     <build>
         <resources>
             <resource>

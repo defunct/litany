@@ -186,32 +186,35 @@ public class Litany implements Iterable<List<String>>
         String separator = "";
         for (Object object : fields)
         {
-            String field = object.toString();
             line.append(separator);
-            if (field.indexOf('"') != -1 || field.indexOf("\n") != -1)
+            if (object != null)
             {
-                line.append('"');
-                for (int i = 0; i < field.length(); i++)
+                String field = object.toString();
+                if (field.indexOf('"') != -1 || field.indexOf("\n") != -1)
                 {
-                    char ch = field.charAt(i);
-                    if (ch != '\r')
+                    line.append('"');
+                    for (int i = 0; i < field.length(); i++)
                     {
-                        if (ch == '"')
+                        char ch = field.charAt(i);
+                        if (ch != '\r')
                         {
+                            if (ch == '"')
+                            {
+                                line.append(ch);
+                            }
+                            else if (ch == '\n')
+                            {
+                                line.append('\r');
+                            }
                             line.append(ch);
                         }
-                        else if (ch == '\n')
-                        {
-                            line.append('\r');
-                        }
-                        line.append(ch);
                     }
+                    line.append('"');
                 }
-                line.append('"');
-            }
-            else
-            {
-                line.append(field);
+                else
+                {
+                    line.append(field);
+                }
             }
             separator = ",";
         }
