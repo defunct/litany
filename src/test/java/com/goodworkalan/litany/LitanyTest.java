@@ -7,14 +7,16 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.testng.annotations.Test;
+
 import com.goodworkalan.litany.Litany;
 
-import junit.framework.TestCase;
+import static org.testng.AssertJUnit.*;
 
-public class LitanyTestCase
-extends TestCase
+public class LitanyTest
 {
-    public void testOneLine()
+    @Test
+    public void oneLine()
     throws IOException
     {
         String csv = "Hello,World!";
@@ -26,8 +28,8 @@ extends TestCase
         assertFalse(iterator.hasNext());
     }
 
-    public void testTwoLines()
-    throws IOException
+    @Test
+    public void twoLines()
     {
         String csv = "Hello,World!\nOne,Two,Three";
         Iterator<List<String>> iterator = new Litany(new StringReader(csv)).iterator();
@@ -43,8 +45,8 @@ extends TestCase
         assertFalse(iterator.hasNext());
     }
 
-    public void testCommaAtEndOfLine()
-    throws IOException
+    @Test
+    public void commaAtEndOfLine()
     {
         String csv = "Barbara_Foundas,Algeirs_Council_of_Neighborhood_Presidents,representative,4,,,,,,,,,,,,,,,,\nOne,Two,Three";
         Iterator<List<String>> iterator = new Litany(new StringReader(csv)).iterator();
@@ -60,7 +62,8 @@ extends TestCase
         assertFalse(iterator.hasNext());
     }
     
-    public void testLine()
+    @Test
+    public void line()
     {
         List<String> listOfStrings = new ArrayList<String>();
         
