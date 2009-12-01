@@ -190,7 +190,7 @@ public class Litany implements Iterable<List<String>>
             if (object != null)
             {
                 String field = object.toString();
-                if (field.indexOf('"') != -1 || field.indexOf("\n") != -1)
+                if (field.indexOf(',') != -1 || field.indexOf('"') != -1 || field.indexOf("\n") != -1)
                 {
                     line.append('"');
                     for (int i = 0; i < field.length(); i++)
