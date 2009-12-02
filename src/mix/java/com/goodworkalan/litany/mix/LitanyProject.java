@@ -10,10 +10,10 @@ public class LitanyProject extends ProjectModule {
     public void build(Builder builder) {
         builder
             .cookbook(JavaProject.class)
-                .produces(new Artifact("com.goodworkalan", "litany", "0.7"))
+                .produces(new Artifact("com.goodworkalan/litany/0.7"))
                 .test()
                     .depends()
-                        .artifact(new Artifact("org.testng/testng/5.10"))
+                        .artifact(new Artifact("org.testng/testng/5.10/jdk15"))
                         .end()
                     .end()
                 .end()
