@@ -9,7 +9,7 @@ public class LitanyProject extends ProjectModule {
     public void build(Builder builder) {
         builder
             .cookbook(JavaProject.class)
-                .produces("com.goodworkalan/litany/0.7")
+                .produces("com.github.bigeasy.litany/litany/0.7")
                 .test()
                     .depends()
                         .include("org.testng/testng-jdk15/5.10")
